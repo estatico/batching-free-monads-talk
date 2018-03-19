@@ -1,49 +1,105 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+    <title>Batching Monads</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+    <link rel="stylesheet" href="css/reveal.css"/>
+    <link rel="stylesheet" href="css/gh-fork-ribbon.min.css"/>
+    <link rel="stylesheet" href="css/theme/beige.css"/>
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <!-- Dynamically add the boomtown logo to the bottom-left of the
+         slides. If we're in PDF view ('?print-pdf' in the url) we need
+         to reduce the logo to 2/3 of its original size.
+      -->
+    <script>
+      // logo original dimensions.
+      var btLogoWidth = 150,
+          btLogoHeight = 35;
+      if (window.location.search.match(/print-pdf/gi)) {
+        btLogoWidth  = btLogoWidth  * 2 / 3;
+        btLogoHeight = btLogoHeight * 2 / 3
+      }
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+      var btLogoStyle = document.createElement("style");
+      document.head.appendChild(btLogoStyle);
+      btLogoStyle.innerText =
+        "body:after {"
+          + "display: inline-block;"
+          + "background-image: url(img/logo-boomtown.png);"
+          /* original size: 150x35, reduced to 2/3 of original size */
+          + "background-size: " + btLogoWidth + "px " + btLogoHeight + "px;"
+          + "width: " + btLogoWidth + "px;"
+          + "height: " + btLogoHeight + "px;"
+          + "content: \"\";"
+          + "position: fixed;"
+          + "bottom: 3.5em;"
+          + "left: 3.5em;"
+          + "}";
+    </script>
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <!-- Adjusted by css/gh-fork-ribbon.min.css -->
+    <a class="github-fork-ribbon"
+       href="https://github.com/estatico/batching-free-monads-talk"
+       data-ribbon="Fork me on GitHub"
+       title="Fork me on GitHub">
+      Fork me on GitHub
+    </a>
+    <div class="reveal">
+      <div class="slides" id="markdown-slides">
+        <section data-markdown="slides.md" data-separator-notes="^Note:"></section>
+        <script>
+          // Dynamically update the location of the slides.md if the site is running
+          // on github.
+          if (window.location.hostname.indexOf('github') >= 0) {
+            document
+              .getElementById('markdown-slides')
+              .getElementsByTagName('section')[0]
+              .setAttribute(
+                'data-markdown',
+                'https://raw.githubusercontent.com/estatico/batching-free-monads-talk/master/slides.md'
+              );
+          }
+        </script>
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        width: '70%',
+        height: '70%',
+        history: true,
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/highlight/highlight.js',
+            async: true,
+            callback: function() { hljs.initHighlightingOnLoad(); }
+          },
+        ]
+      });
+    </script>
+  </body>
 </html>
